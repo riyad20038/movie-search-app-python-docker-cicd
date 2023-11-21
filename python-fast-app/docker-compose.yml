@@ -1,0 +1,38 @@
+version: "3.3"
+networks:
+    server-bridge:
+        driver: bridge
+
+services:
+    py-app:
+        image: "nahiyanswe/python-fast-app:v2"
+        env_file:
+            - $PWD/.env
+        container_name: py-app
+        restart: always
+        ports:
+            - "${APP_PORT}:8000"
+        command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+        volumes:
+            - $PWD/database.py:/pyapp/database.py
+            - $PWD/main.py:/pyapp/main.py
+        networks:
+            - server-bridge
+
+
+    mysql:
+        image: "mysql:8.0.29-debian"
+        container_name: "py-mysql"
+        ports:
+            - "${DB_PORT}:3306"
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+            MYSQL_DATABASE: "${DB_NAME}"
+            MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+        volumes:
+            - "$PWD/mysql/db:/var/lib/mysql"
+            - "$PWD/mysql/log:/var/log/mysql"
+            - "$PWD/movies.sql:/docker-entrypoint-initdb.d/movies.sql"
+        networks:
+            - server-bridge

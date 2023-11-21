@@ -2,7 +2,7 @@
 CREATE DATABASE IF NOT EXISTS movieDB;
 
 -- Switch to the database
-USE lalala;
+USE movieDB;
 
 -- Create table if it doesn't exist
 CREATE TABLE IF NOT EXISTS hollywood (
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS hollywood (
 );
 
 -- Insert data
-INSERT INTO hahaha (movie_name, year_of_release, box_office, director, producer, cast)
+INSERT INTO hollywood (movie_name, year_of_release, box_office, director, producer, cast)
 VALUES
     ('The Shawshank Redemption', 1994, 28.34, 'Frank Darabont', 'Niki Marvin', 'Tim Robbins, Morgan Freeman'),
     ('The Godfather', 1972, 28.34, 'Francis Ford Coppola', 'Albert S. Ruddy', 'Marlon Brando, Al Pacino'),

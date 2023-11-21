@@ -1,15 +1,21 @@
 import mysql.connector
 import time
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Wait for MySQL container to start up
 time.sleep(5)  # Adjust the delay as needed
+
 # Database connection configuration
 db_config = {
-    "host": "nahiyan-pyapp-db.cpsvhbrundlq.eu-north-1.rds.amazonaws.com",
-    "port": 3306,
-    "user": "root",
-    "password": "bjit1234",
-    "database": "movieDB",
+    "host": os.getenv("DB_HOST"),
+    "port": int(os.getenv("DB_PORT")),
+    "user": os.getenv("DB_USER"),
+    "password": os.getenv("DB_PASSWORD"),
+    "database": os.getenv("DB_NAME"),
 }
 
 # Establish a database connection
