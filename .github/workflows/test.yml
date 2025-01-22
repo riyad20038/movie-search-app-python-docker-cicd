@@ -2,7 +2,7 @@ name: Docker Build
 on:
   push:
     branches:
-      - 'dev'
+      - 'main'
 jobs:
   sonarcloud:
       name: SonarCloud
@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: 'dev'
+          ref: 'main'
     
       - name: setup docker buildx
         uses: docker/setup-buildx-action@v3
