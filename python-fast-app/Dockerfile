@@ -4,13 +4,25 @@ WORKDIR /pyapp
 
 COPY requirements.txt req.txt
 
-RUN pip install -r req.txt
+RUN pip install --user -r req.txt
+
+RUN apt update && apt install -y bash
+
 
 FROM python:3.10-slim
 
 WORKDIR /pyapp
 
 COPY --from=build /root/.local /root/.local
+
+COPY install.sh /pyapp/install.sh
+
+RUN chmod +x /pyapp/install.sh && /bin/sh /pyapp/install.sh
+
+ENV PATH="/root/.local/bin:PATH"
+
+ENV PATH="/usr/bin:$PATH"
+
 
 COPY . .
 
