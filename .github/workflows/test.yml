@@ -40,7 +40,7 @@ jobs:
           context: ./python-fast-app
           file: ./python-fast-app/Dockerfile
           push: true
-          tags: riyad/python-fast-app:v1
+          tags: riyad2003/python-fast-app:v1
       - name: code check with pylint
         run: |
           cd ./python-fast-app
