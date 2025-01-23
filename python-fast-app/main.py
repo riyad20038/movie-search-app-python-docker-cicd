@@ -1,58 +1,63 @@
-from fastapi import FastAPI, Request, Form
+"""
+FastAPI application for managing Hollywood movie data.
+"""
+
+from fastapi import FastAPI, Form, Request
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import RedirectResponse
+from fastapi.responses import HTMLResponse
 from database import search_movies_by_year, upload_movie_data
 import uvicorn
 
-# Initialize FastAPI app
+# Initialize FastAPI app and templates
 app = FastAPI()
-
-# Jinja2 templates directory
 templates = Jinja2Templates(directory="templates")
 
 
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 def home(request: Request):
     """
-    Render the homepage for searching movies.
+    Render the home page.
+
     Args:
-        request (Request): The incoming request object.
+        request (Request): The incoming HTTP request.
 
     Returns:
-        HTMLResponse: The rendered index.html template.
+        TemplateResponse: Rendered HTML template for the home page.
     """
     return templates.TemplateResponse("index.html", {"request": request})
 
 
-@app.post("/")
+@app.post("/", response_class=HTMLResponse)
 def search_movies(request: Request, year_of_release: int = Form(...)):
     """
-    Handle movie search by year of release.
+    Search for movies by year of release and display results.
+
     Args:
-        request (Request): The incoming request object.
-        year_of_release (int): The release year to search for.
+        request (Request): The incoming HTTP request.
+        year_of_release (int): The release year of the movies to search.
 
     Returns:
-        HTMLResponse: The rendered template with search results.
+        TemplateResponse: Rendered HTML template with search results.
     """
     results = search_movies_by_year(year_of_release)
     return templates.TemplateResponse("index.html", {"request": request, "results": results})
 
 
-@app.get("/upload_data")
+@app.get("/upload_data", response_class=HTMLResponse)
 def upload_data(request: Request):
     """
-    Render the movie upload form.
+    Render the movie data upload page.
+
     Args:
-        request (Request): The incoming request object.
+        request (Request): The incoming HTTP request.
 
     Returns:
-        HTMLResponse: The rendered upload_data.html template.
+        TemplateResponse: Rendered HTML template for data upload.
     """
     return templates.TemplateResponse("upload_data.html", {"request": request})
 
 
-@app.post("/upload_data")
+@app.post("/upload_data", response_class=HTMLResponse)
 def upload_movie_data_handler(
     request: Request,
     movie_name: str = Form(...),
@@ -60,31 +65,27 @@ def upload_movie_data_handler(
     box_office: float = Form(...),
     director: str = Form(...),
     producer: str = Form(...),
-    cast: str = Form(...)
+    cast: str = Form(...),
 ):
     """
-    Handle movie data upload.
+    Handle movie data upload form submission.
+
     Args:
-        request (Request): The incoming request object.
+        request (Request): The incoming HTTP request.
         movie_name (str): Name of the movie.
-        year_of_release (int): Release year of the movie.
-        box_office (float): Box office revenue.
-        director (str): Director of the movie.
-        producer (str): Producer of the movie.
+        year_of_release (int): Year the movie was released.
+        box_office (float): Box office earnings.
+        director (str): Name of the director.
+        producer (str): Name of the producer.
         cast (str): Cast details.
 
     Returns:
-        RedirectResponse: Redirect to the homepage after successful upload.
+        TemplateResponse: Rendered HTML template for data upload.
     """
     upload_movie_data(movie_name, year_of_release, box_office, director, producer, cast)
-    return RedirectResponse("/", status_code=303)
+    return templates.TemplateResponse("upload_data.html", {"request": request, "message": "Movie uploaded successfully!"})
 
 
 # Run the app
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
-
-
-# Run the app if executed directly
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
