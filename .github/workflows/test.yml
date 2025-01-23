@@ -43,7 +43,6 @@ jobs:
           tags: riyad2003/python-fast-app:v1
       - name: code check with pylint
         run: |
-          cd ./python-fast-app
           pylint ./pyapp/*.py
     
 
