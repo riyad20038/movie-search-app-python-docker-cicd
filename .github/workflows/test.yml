@@ -24,7 +24,7 @@ jobs:
 
       - name: Run Pylint
         run: |
-          pylint ./python-fast-app/pyapp/*.py
+          pylint ./python-fast-app/*.py
 
   deploy:
     name: Build and Push Docker Image
