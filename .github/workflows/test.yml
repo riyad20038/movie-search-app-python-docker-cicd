@@ -37,8 +37,8 @@ jobs:
         id: build-push-api
         uses: docker/build-push-action@v3
         with:
-          context: .
-          file: Dockerfile
+          context: ./python-fast-app
+          file: ./python-fast-app/Dockerfile
           push: true
           tags: riyad/python-fast-app:v1
       - name: code check with pylint
