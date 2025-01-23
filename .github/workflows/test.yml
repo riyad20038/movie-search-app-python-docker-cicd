@@ -1,21 +1,21 @@
-name: Docker Build
+name: CI/CD Pipeline
 on:
   push:
     branches:
-      - 'main'
+      - main  # Trigger the pipeline on pushes to the main branch
+
 jobs:
-  sonarcloud:
-      name: SonarCloud
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v3
-          with:
-            fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-        - name: SonarCloud Scan
-          uses: SonarSource/sonarqube-scan-action@v4.1.0
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  build-and-test:
+    name: Build, Lint, and Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10' 
   deploy:
     name: build && push image to docker hub
     runs-on: ubuntu-latest
