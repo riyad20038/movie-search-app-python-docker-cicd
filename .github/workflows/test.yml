@@ -28,7 +28,7 @@ jobs:
 
   deploy:
     name: Build and Push Docker Image
-    needs: lint  # Ensure linting job runs successfully first
+    needs: code-check  # Ensure linting job runs successfully first
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
