@@ -5,8 +5,8 @@ on:
       - main  # Trigger the pipeline on pushes to the main branch
 
 jobs:
-  build-and-test:
-    name: Build, Lint, and Test
+  code-check:
+    name: check Python Code with Pylint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -16,38 +16,38 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.10' 
-      - name: Build and run Docker container
+
+      - name: Install Pylint
         run: |
-          docker build -t python-fast-app .
-          docker run --rm python-fast-app pylint ./pyapp/*.py
+          python3 -m pip install --upgrade pip
+          pip install pylint
+
+      - name: Run Pylint
+        run: |
+          pylint ./python-fast-app/pyapp/*.py
 
   deploy:
-    name: build && push image to docker hub
+    name: Build and Push Docker Image
+    needs: lint  # Ensure linting job runs successfully first
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: 'main'
-    
-      - name: setup docker buildx
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-    
-      - name: docker login
+
+      - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      
-      - name: build and push api
-        id: build-push-api
+
+      - name: Build and Push Docker Image
         uses: docker/build-push-action@v3
         with:
-          context: ./python-fast-app
+          context: ./python-fast-app  # Ensure the directory matches your repo structure
           file: ./python-fast-app/Dockerfile
           push: true
           tags: riyad2003/python-fast-app:v1
-      - name: code check with pylint
-        run: |
-          pylint ./pyapp/*.py
-    
 
