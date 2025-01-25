@@ -1,0 +1,29 @@
+name: lint
+on:
+  push:
+    branches:
+      - main  # Trigger the pipeline on pushes to the main branch
+
+jobs:
+  code-check:
+    name: check Python Code with Pylint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10' 
+
+      - name: Install Pylint
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install pylint
+
+      - name: Run Pylint
+        run: |
+          pylint ./python-fast-app/*.py
+
+

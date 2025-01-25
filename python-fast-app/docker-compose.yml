@@ -39,3 +39,8 @@ services:
       - ./movies.sql:/docker-entrypoint-initdb.d/movies.sql
     networks:
       - server-bridge
+  test-runner:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: test

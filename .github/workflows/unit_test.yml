@@ -1,30 +1,27 @@
-name: build
+name: Unit Tests
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
-
-  build:
-
+  run-tests:
+    name: Run Unit Tests with Docker Compose
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
+      - name: Set up Docker Compose
+        run: |
+          docker-compose build test-runner
+          docker-compose up --abort-on-container-exit test-runner
 
-    - name: Install dependencies
-      run: pip install -r requirements.txt
-
-    - name: Run Python unit tests
-      run: python3 -m unittest tests/
-
-    - name: Verify that the Docker image for the action builds
-      run: docker build . --file Dockerfile
+      - name: Clean up
+        if: always()
+        run: docker-compose down

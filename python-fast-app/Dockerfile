@@ -29,3 +29,9 @@ COPY . .
 EXPOSE 8000
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+FROM python:3.10-slim as test
+
+RUN pip install pytest
+
+CMD [ "python","-m","pytest" ]
