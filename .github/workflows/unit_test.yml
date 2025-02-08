@@ -21,7 +21,3 @@ jobs:
         run: |
           docker-compose build test-runner
           docker-compose up --abort-on-container-exit test-runner
-
-      - name: Clean up
-        if: always()
-        run: docker-compose down
