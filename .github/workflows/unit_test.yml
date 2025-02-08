@@ -17,7 +17,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Docker Compose
+      - name: Set up Docker
         run: |
-          docker-compose build test-runner
-          docker-compose up --abort-on-container-exit test-runner
+          sudo apt-get update
+          sudo apt-get install -y docker-compose-plugin
+
+      - name: Build and Run Tests
+        run: |
+          docker compose build test-runner
+          docker compose up --abort-on-container-exit test-runner
+
