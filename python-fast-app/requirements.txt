@@ -1,18 +1,20 @@
 anyio==3.7.0
 click==8.1.3
 exceptiongroup==1.1.1
-fastapi==0.97.0
+fastapi==0.110.0
 h11==0.14.0
 idna==3.4
 Jinja2==3.1.2
 MarkupSafe==2.1.3
-mysql-connector-python==8.0.33
+mysql-connector-python==9.1.0
 protobuf==3.20.3
-pydantic==1.10.9
+pydantic==2.6.4  # ✅ Use Pydantic v2 (FastAPI 0.110.0 requires it)
+pydantic-core==2.16.3  # ✅ Required for Pydantic v2
 python-dotenv==1.0.0
-python-multipart==0.0.6
+python-multipart==0.0.18
 sniffio==1.3.0
-starlette==0.27.0
-typing_extensions==4.6.3
-uvicorn==0.22.0
+starlette==0.36.3  # ✅ Fix conflict with FastAPI
+typing_extensions==4.8.0
+uvicorn==0.29.0  # ✅ Upgrade to latest compatible version
 pylint==3.3.3
+
