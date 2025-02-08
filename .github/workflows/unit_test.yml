@@ -25,6 +25,7 @@ jobs:
 
       - name: Build and Run Tests
         run: |
+          cd python-fast-app
           docker-compose build test-runner
           docker-compose up --abort-on-container-exit test-runner
 
