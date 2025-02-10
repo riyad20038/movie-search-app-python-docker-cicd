@@ -21,6 +21,9 @@ services:
       - ./main.py:/pyapp/main.py
     networks:
       - server-bridge
+    depends_on:
+      mysql:
+        condition: service_healthy
 
   mysql:
     image: "mysql:8.0.29-debian"
@@ -38,9 +41,27 @@ services:
       - ./movies.sql:/docker-entrypoint-initdb.d/movies.sql
     networks:
       - server-bridge
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   test-runner:
     build:
       context: .
       dockerfile: ./Dockerfile
       target: test
+    container_name: test-runner
+    env_file:
+      - .env
+    depends_on:
+      mysql:
+        condition: service_healthy
+      py-app:
+        condition: service_started
+    networks:
+      - server-bridge
+    command: ["/bin/sh", "-c", "sleep 10 && pytest --disable-warnings"]
+
 

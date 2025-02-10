@@ -2,13 +2,11 @@ FROM python:3.10 AS build
 
 WORKDIR /pyapp
 
+RUN pip install --upgrade pip
+
 COPY requirements.txt .
 
-RUN pip install --user -r requirements.txt
-
-RUN apt update && apt install -y bash
-
-RUN pip install --upgrade pip
+RUN pip install --user --no-cache-dir -r requirements.txt
 
 FROM python:3.10-slim AS final
 
@@ -34,8 +32,12 @@ FROM python:3.10-slim AS test
 
 WORKDIR /pyapp
 
-COPY test_main.py /pyapp/test_main.py
+COPY --from=build /root/.local /root/.local
 
-RUN pip install pytest
+ENV PATH="/root/.local/bin:$PATH"
 
-CMD [ "python","-m","pytest" ]
+COPY . .
+
+RUN pip install --user pytest
+
+CMD ["/bin/sh", "-c", "sleep 10 && pytest --disable-warnings"]

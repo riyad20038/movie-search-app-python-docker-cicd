@@ -17,4 +17,5 @@ starlette==0.36.3  # ✅ Fix conflict with FastAPI
 typing_extensions==4.8.0
 uvicorn==0.29.0  # ✅ Upgrade to latest compatible version
 pylint==3.3.3
+httpx==0.24.1
 
