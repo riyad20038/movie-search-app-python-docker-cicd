@@ -2,7 +2,7 @@ name: Deploy Workflow
 on:
   workflow_run:
     workflows:
-      - unit_test
+      - Unit Tests
     types:
       - completed
 
