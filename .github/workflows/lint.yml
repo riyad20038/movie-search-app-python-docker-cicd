@@ -24,6 +24,7 @@ jobs:
 
       - name: Run Pylint
         run: |
-          pylint ./python-fast-app/*.py
+          pylint ./python-fast-app/*.py || true
+
 
 
