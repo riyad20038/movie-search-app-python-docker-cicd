@@ -8,15 +8,15 @@ COPY requirements.txt .
 
 RUN pip install --user --no-cache-dir -r requirements.txt
 
+COPY install.sh /pyapp/install.sh
+
+RUN chmod +x /pyapp/install.sh && bash /pyapp/install.sh
+
 FROM python:3.10-slim AS final
 
 WORKDIR /pyapp
 
 COPY --from=build /root/.local /root/.local
-
-COPY install.sh /pyapp/install.sh
-
-RUN chmod +x /pyapp/install.sh && /bin/sh /pyapp/install.sh
 
 ENV PATH="/root/.local/bin:$PATH"
 
