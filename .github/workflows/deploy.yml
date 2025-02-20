@@ -36,15 +36,15 @@ jobs:
           tags: riyad2003/python-fast-app:v1
       - name: deploy to ec2
         uses: appleboy/ssh-action@master
-        with: host ${{ env.INSTANCE_IP }}
-        username: ubuntu
-        key: |
-          ${{ env.RSA_KEY_FOR_APP_EC2 }}
-        script: |
-          docker pull riyad2003/python-fast-app:v1
-          docker stop python-fast-app || true
-          docker rm python-fast-app || true
-          docker run -d -p 80:8000 --name python-fast-app riyad2003/python-fast-app:v1
+        with: 
+          host: ${{ env.INSTANCE_IP }}
+          username: ubuntu
+          key: ${{ env.PRIVATE_KEY }}
+          script: |
+            docker pull riyad2003/python-fast-app:v1
+            docker stop python-fast-app || true
+            docker rm python-fast-app || true
+            docker run -d -p 80:8000 --name python-fast-app riyad2003/python-fast-app:v1
 
 
 
