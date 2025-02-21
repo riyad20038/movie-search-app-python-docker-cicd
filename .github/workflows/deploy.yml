@@ -44,7 +44,7 @@ jobs:
             sudo docker pull riyad2003/python-fast-app:v1
             sudo docker stop python-fast-app || true
             sudo docker rm python-fast-app || true
-            sudo docker run -d -p 80:8000 --name python-fast-app riyad2003/python-fast-app:v1
+            sudo docker run -d -p 80:80 --name python-fast-app riyad2003/python-fast-app:v1
 
 
 
