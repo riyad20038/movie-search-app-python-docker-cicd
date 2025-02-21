@@ -8,7 +8,7 @@ services:
       context: .
       dockerfile: ./Dockerfile
       target: final
-    image: "riyad/python-fast-app:v2"
+    image: "riyad2003/python-fast-app:v1"
     container_name: py-app
     restart: always
     ports:

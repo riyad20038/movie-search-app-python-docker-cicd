@@ -41,7 +41,6 @@ jobs:
           username: ec2-user
           key: ${{ env.PRIVATE_KEY }}
           script: |
-            cd /home/ec2-user/movie-app-ci-cd/python-fast-app
             sudo docker-compose down || true
             sudo docker-compose pull
             sudo docker-compose up -d
