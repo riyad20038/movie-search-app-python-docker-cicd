@@ -50,7 +50,8 @@ jobs:
           host: ${{ env.INSTANCE_IP }}
           username: ec2-user
           key: ${{ env.PRIVATE_KEY }}
-          source: "docker-compose.yml"  
+          source: "python-fast-app/docker-compose.yml"
+ 
           target: "/home/ec2-user/app/"  
 
       - name: SSH into EC2 and Deploy
