@@ -51,7 +51,7 @@ jobs:
           username: ec2-user
           key: ${{ env.PRIVATE_KEY }}
           source: "python-fast-app/*"  # Send all necessary files (like main.py, requirements.txt, etc.)
-          target: "/home/ec2-user/python-fast-app/"  # Destination on EC2
+          target: "/home/ec2-user/"  # Destination on EC2
 
       - name: SSH into EC2 and Deploy
         uses: appleboy/ssh-action@master
