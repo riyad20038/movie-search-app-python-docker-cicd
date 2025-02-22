@@ -48,7 +48,6 @@ jobs:
           username: ec2-user
           key: ${{ env.PRIVATE_KEY }}
           script: |
-            cd /home/ec2-user/python-fast-app
             sudo docker pull riyad2003/python-fast-app:v1
             sudo docker-compose down || true  
             sudo docker-compose pull  
