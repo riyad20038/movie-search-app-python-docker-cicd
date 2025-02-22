@@ -50,7 +50,7 @@ jobs:
           host: ${{ env.INSTANCE_IP }}
           username: ec2-user
           key: ${{ env.PRIVATE_KEY }}
-          source: "python-fast-app/*"  # Send all necessary files (like main.py, requirements.txt, etc.)
+          source: "python-fast-app/**"  # Send all necessary files (like main.py, requirements.txt, etc.)
           target: "/home/ec2-user/"  # Destination on EC2
 
       - name: SSH into EC2 and Deploy
