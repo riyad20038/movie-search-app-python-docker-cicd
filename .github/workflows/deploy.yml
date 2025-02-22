@@ -48,8 +48,28 @@ jobs:
           username: ec2-user
           key: ${{ env.PRIVATE_KEY }}
           script: |
+            # Ensure the directory exists
+            if [ ! -d "/home/ec2-user/python-fast-app" ]; then
+              mkdir -p /home/ec2-user/python-fast-app
+            fi
+
+            # Navigate to the directory where docker-compose.yml is located
+            cd /home/ec2-user/python-fast-app
+
+            # Check if docker-compose.yml is present
+            ls -la
+
+            # Pull the latest image (not necessary if already pulled)
             sudo docker pull riyad2003/python-fast-app:v1
-            sudo docker-compose down || true  
-            sudo docker-compose pull  
-            sudo docker-compose up -d  
-            sudo docker image prune -f  
+
+            # Stop any running containers
+            sudo docker-compose down || true
+
+            # Pull the latest images as per docker-compose.yml
+            sudo docker-compose pull
+
+            # Start the containers in detached mode
+            sudo docker-compose up -d
+
+            # Clean up old Docker images
+            sudo docker image prune -f
