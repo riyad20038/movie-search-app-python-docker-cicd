@@ -41,19 +41,6 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Upload docker-compose.yml to EC2
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ env.INSTANCE_IP }}
-          username: ec2-user
-          key: ${{ env.PRIVATE_KEY }}
-          source: "python-fast-app/docker-compose.yml"
- 
-          target: "/home/ec2-user/app/"  
-
       - name: SSH into EC2 and Deploy
         uses: appleboy/ssh-action@master
         with:
@@ -61,7 +48,8 @@ jobs:
           username: ec2-user
           key: ${{ env.PRIVATE_KEY }}
           script: |
-            cd /home/ec2-user/app
+            cd /home/ec2-user/python-fast-app
+            sudo docker pull riyad2003/python-fast-app:v1
             sudo docker-compose down || true  
             sudo docker-compose pull  
             sudo docker-compose up -d  
